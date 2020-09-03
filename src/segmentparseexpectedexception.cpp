@@ -1,5 +1,11 @@
+//Our includes
 #include "segmentparseexpectedexception.h"
+
+//Qt includes
 #include <QStringList>
+
+//Std includes
+#include <sstream>
 
 namespace dewalls {
 

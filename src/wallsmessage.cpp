@@ -1,5 +1,8 @@
 #include "wallsmessage.h"
 
+//Std includes
+#include <sstream>
+
 namespace dewalls {
 
 WallsMessage::WallsMessage(QString severity, QString message, QString source,
