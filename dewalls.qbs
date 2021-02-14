@@ -15,6 +15,7 @@ Project {
             Depends { name: "cpp" }
             cpp.includePaths: ["src"]
 //            cpp.rpaths: [product.rpath]
+            cpp.defines: ["DEWALLS_DYLIB"]
             cpp.cxxFlags: {
                 if(qbs.toolchain.contains("gcc")) {
                     return ["-Wno-attributes"] //Ignore-around to a g++ bug, https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43407
@@ -44,7 +45,7 @@ Project {
 
         Properties {
             condition: qbs.targetOS.contains("windows")
-            cpp.defines: ["DEWALLS_LIB"]
+            cpp.defines: ["DEWALLS_LIB", "DEWALLS_DYLIB"]
         }
 
         Properties {

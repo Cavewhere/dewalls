@@ -1,7 +1,7 @@
 #ifndef TOSTRINGS_H
 #define TOSTRINGS_H
 
-//#include "../lib/catch.hpp"
+//#include "../lib/catch2/catch.hpp"
 
 //#include <string>
 //#include <QString>
