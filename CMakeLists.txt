@@ -11,10 +11,11 @@ string(REGEX REPLACE "\n$" "" GIT_TAG "${GIT_TAG}")
 string(REGEX REPLACE "([0-9]+)\.([0-9]+)\.([0-9]+).*" "\\1.\\2.\\3" PERIOD_VERSION "${GIT_TAG}")
 
 # set the project name
-project(dewalls ${PERIOD_VERSION} LANGUAGES CXX)
+project(dewalls VERSION ${PERIOD_VERSION} LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 find_package(Qt5 COMPONENTS Core REQUIRED)
 
