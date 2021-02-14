@@ -55,6 +55,7 @@ file(GLOB sources RELATIVE ${PROJECT_SOURCE_DIR} "src/*.h" "src/*.cpp")
 add_library(dewalls SHARED
     ${sources}
 )
+
 target_compile_definitions(dewalls PRIVATE "DEWALLS_LIB")
 target_compile_definitions(dewalls PUBLIC "DEWALLS_DYLIB")
 target_include_directories(dewalls PUBLIC "src")
@@ -68,3 +69,7 @@ file(GLOB test_sources RELATIVE ${PROJECT_SOURCE_DIR}
 
 add_executable(dewalls-test ${test_sources})
 target_link_libraries(dewalls-test dewalls CONAN_PKG::catch2)
+
+add_test(run-dewalls-test
+    dewalls-test
+    WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
