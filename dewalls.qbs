@@ -1,7 +1,16 @@
 import qbs 1.0
+import qbs.Probes
 
 Project {
     name: "dewalls"
+
+    Probes.ConanfileProbe {
+        id: conan
+        conanfilePath: project.sourceDirectory + "/conanfile.txt"
+        generators: "qbs"
+    }
+
+    references: conan.generatedFilesPath + "/conanbuildinfo.qbs"
 
     DynamicLibrary {
         name: "dewalls"
@@ -83,6 +92,7 @@ Project {
         }
 
         files: [
+            "conanfile.txt",
             "src/*.cpp",
             "src/*.h"
         ]
@@ -96,12 +106,14 @@ Project {
         Depends { name: "cpp" }
         Depends { name: "Qt"; submodules: ["core"] }
         Depends { name: "dewalls" }
+        Depends { name: "catch2" }
 
         cpp.includePaths: ["src", "lib"]
         cpp.cxxLanguageVersion: "c++11"
 //        cpp.treatWarningsAsErrors: true
 
         files: [
+            "conanfile.txt",
             "test/*.cpp",
             "test/*.h",
             "test/dewalls-test.qrc",
