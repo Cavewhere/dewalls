@@ -33,3 +33,8 @@ Makefile*
 *.qmlproject.user
 *.qmlproject.user.*
 *.user
+conanbuildinfo.qbs
+conanbuildinfo.txt
+conaninfo.txt
+graph_info.json
+conan.lock
