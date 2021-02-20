@@ -18,13 +18,10 @@ Project {
         Depends { name: "cpp" }
         Depends { name: "Qt"; submodules: ["core"] }
         Depends { name: "bundle" }
-//        property string rpath: buildDirectory
 
         Export {
             Depends { name: "cpp" }
             cpp.includePaths: ["src"]
-//            cpp.rpaths: [product.rpath]
-            cpp.defines: ["DEWALLS_DYLIB"]
             cpp.cxxFlags: {
                 if(qbs.toolchain.contains("gcc")) {
                     return ["-Wno-attributes"] //Ignore-around to a g++ bug, https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43407
@@ -48,13 +45,12 @@ Project {
         }
 
         cpp.includePaths: ["src"]
-//        cpp.rpaths: [Qt.core.libPath]
         cpp.cxxLanguageVersion: "c++11"
         cpp.treatWarningsAsErrors: false
 
         Properties {
             condition: qbs.targetOS.contains("windows")
-            cpp.defines: ["DEWALLS_LIB", "DEWALLS_DYLIB"]
+            cpp.defines: ["DEWALLS_LIB"]
         }
 
         Properties {
@@ -110,7 +106,6 @@ Project {
 
         cpp.includePaths: ["src", "lib"]
         cpp.cxxLanguageVersion: "c++11"
-//        cpp.treatWarningsAsErrors: true
 
         files: [
             "conanfile.txt",
