@@ -6,8 +6,9 @@ Project {
 
     Probes.ConanfileProbe {
         id: conan
-        conanfilePath: project.sourceDirectory + "/conanfile.txt"
+        conanfilePath: project.sourceDirectory + "/conanfile.py"
         generators: "qbs"
+        options: ({system_qt:"True", system_qbs:"True"})
     }
 
     references: conan.generatedFilesPath + "/conanbuildinfo.qbs"
@@ -108,7 +109,7 @@ Project {
         cpp.cxxLanguageVersion: "c++11"
 
         files: [
-            "conanfile.txt",
+            "conanfile.py",
             "test/*.cpp",
             "test/*.h",
             "test/dewalls-test.qrc",

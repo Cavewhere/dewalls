@@ -1,8 +1,0 @@
-[requires]
-catch2/2.13.4
-qt/5.15.2@bincrafters/stable
-
-[generators]
-qbs
-#qt
-#cmake_find_package
