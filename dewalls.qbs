@@ -2,13 +2,18 @@ import qbs 1.0
 import qbs.Probes
 
 Project {
+    id: dewallsId
     name: "dewalls"
+
+    property string system_qt:"False"
+    property string system_qbs:"False"
 
     Probes.ConanfileProbe {
         id: conan
         conanfilePath: project.sourceDirectory + "/conanfile.py"
         generators: "qbs"
-        options: ({system_qt:"True", system_qbs:"True"})
+        options: ({system_qt:dewallsId.system_qt,
+                      system_qbs:dewallsId.system_qbs})
     }
 
     references: conan.generatedFilesPath + "/conanbuildinfo.qbs"
@@ -89,7 +94,7 @@ Project {
         }
 
         files: [
-            "conanfile.txt",
+            "conanfile.py",
             "src/*.cpp",
             "src/*.h"
         ]

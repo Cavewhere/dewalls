@@ -85,11 +85,11 @@ class DewallsConan(ConanFile):
         self.run("qbs config --settings-dir {0} profiles.qt-profile.baseProfile conan"
         .format(self.build_folder)) #MSVC2019-x64")
 
-        self.run("qbs build --no-install --settings-dir {0} --build-directory {0} --file {1} config:{2} profile:qt-profile"
-        .format(self.build_folder, project_file, qbs_build_variant))
+        self.run("qbs build --no-install --settings-dir {0} --build-directory {0} --file {1} config:{2} project.system_qt:{3} project.system_qbs:{4}  profile:qt-profile"
+        .format(self.build_folder, project_file, qbs_build_variant, self.options.system_qt, self.options.system_qbs))
 
-        self.run("qbs run -p dewalls-test --settings-dir {0} config:{1} profile:qt-profile"
-        .format(self.build_folder, qbs_build_variant))
+        self.run("qbs run -p dewalls-test --settings-dir {0} config:{1} project.system_qt:{2} project.system_qbs:{3} profile:qt-profile"
+        .format(self.build_folder, qbs_build_variant, self.options.system_qt, self.options.system_qbs))
 
     def package(self):
         self.copy("*.h", dst="include", src="src")
