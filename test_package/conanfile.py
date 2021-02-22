@@ -33,4 +33,7 @@ class DewallsTestConan(ConanFile):
     def test(self):
         if not tools.cross_building(self):
             os.chdir("bin")
+            if self.options.system_qt:
+                qt_bin_dir = "{0}/bin".format(os.getenv("QTDIR"))
+                os.environ["PATH"] += os.pathsep + qt_bin_dir
             self.run(".%sexample" % os.sep)
