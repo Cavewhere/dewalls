@@ -128,7 +128,7 @@ Segment Segment::mid(int position, int n) const
               newStartCol)));
 }
 
-QList<Segment> Segment::split(const QRegExp &re, QString::SplitBehavior behavior) const
+QList<Segment> Segment::split(const QRegExp &re, Qt::SplitBehaviorFlags behavior) const
 {
     QList<Segment> matchList;
 
@@ -138,14 +138,14 @@ QList<Segment> Segment::split(const QRegExp &re, QString::SplitBehavior behavior
     int matchStart = 0;
     while ((matchStart = matcher.indexIn(value(), partStart)) >= 0)
     {
-        if (behavior == QString::SplitBehavior::KeepEmptyParts || matchStart > partStart)
+        if (behavior == Qt::KeepEmptyParts || matchStart > partStart)
         {
             matchList << mid(partStart, matchStart - partStart);
         }
         partStart = matchStart + matcher.matchedLength();
     }
 
-    if (behavior == QString::SplitBehavior::KeepEmptyParts || partStart < length())
+    if (behavior == Qt::KeepEmptyParts || partStart < length())
     {
         matchList << mid(partStart);
     }
@@ -153,7 +153,7 @@ QList<Segment> Segment::split(const QRegExp &re, QString::SplitBehavior behavior
     return matchList;
 }
 
-QList<Segment> Segment::split(const QString &pattern, QString::SplitBehavior behavior, Qt::CaseSensitivity cs) const
+QList<Segment> Segment::split(const QString &pattern, Qt::SplitBehaviorFlags behavior, Qt::CaseSensitivity cs) const
 {
     return split(QRegExp(pattern, cs), behavior);
 }
