@@ -3,6 +3,7 @@ project(dewalls)
 
 # Find Qt packages
 find_package(Qt5 COMPONENTS Core REQUIRED)
+find_package(catch2 REQUIRED)
 
 # Include the export header module
 include(GenerateExportHeader)
@@ -48,7 +49,7 @@ target_sources(dewalls-test PRIVATE ${DEWALLS_TEST_SOURCES})
 target_include_directories(dewalls-test PRIVATE src lib)
 
 # Add dependencies for the test application
-target_link_libraries(dewalls-test PRIVATE dewalls Qt::Core)
+target_link_libraries(dewalls-test PRIVATE dewalls Qt::Core catch2:catch2)
 
 # Set C++11 standard
 set_property(TARGET dewalls PROPERTY CXX_STANDARD 11)
