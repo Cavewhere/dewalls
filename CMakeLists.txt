@@ -11,6 +11,12 @@ include(GenerateExportHeader)
 # Add dynamic library
 add_library(dewalls SHARED)
 
+set_target_properties(dewalls PROPERTIES
+    AUTOMOC ON
+    AUTORCC ON
+    AUTOUIC ON
+)
+
 # Use glob to collect source files
 file(GLOB DEWALLS_SOURCES "src/*.cpp" "src/*.h")
 target_sources(dewalls PRIVATE ${DEWALLS_SOURCES})
@@ -40,6 +46,12 @@ endif()
 
 # Add console application
 add_executable(dewalls-test)
+
+set_target_properties(dewalls-test PROPERTIES
+    AUTOMOC ON
+    AUTORCC ON
+    AUTOUIC ON
+)
 
 # Use glob to collect source files for the test application
 file(GLOB DEWALLS_TEST_SOURCES "test/*.cpp" "test/*.h" "test/dewalls-test.qrc")
