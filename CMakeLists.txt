@@ -37,7 +37,7 @@ target_include_directories(dewalls PUBLIC
 )
 
 # Add dependencies
-target_link_libraries(dewalls PRIVATE Qt::Core)
+target_link_libraries(dewalls PUBLIC Qt5::Core)
 
 # Compiler flags
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -61,7 +61,7 @@ target_sources(dewalls-test PRIVATE ${DEWALLS_TEST_SOURCES})
 target_include_directories(dewalls-test PRIVATE src lib)
 
 # Add dependencies for the test application
-target_link_libraries(dewalls-test PRIVATE dewalls Qt::Core Catch2::Catch2)
+target_link_libraries(dewalls-test PRIVATE dewalls Catch2::Catch2)
 
 # Set C++11 standard
 set_property(TARGET dewalls PROPERTY CXX_STANDARD 11)
