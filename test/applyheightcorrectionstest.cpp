@@ -1,10 +1,12 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
 
 #include "vector.h"
 #include "wallstypes.h"
 #include "unitizedmath.h"
 
 using namespace dewalls;
+using Catch::Matchers::WithinAbs;
 
 typedef UnitizedDouble<Length> ULength;
 typedef UnitizedDouble<Angle> UAngle;
@@ -53,8 +55,10 @@ void testInstance(ULength instY, ULength targetY, ULength fromY, ULength toY, UL
     }
     else {
         vector.applyHeightCorrections();
-        CHECK( (vector.distance() + units.incd()).get(Length::Meters) == Approx( expectedDist.get(Length::Meters) ) );
-        CHECK( (vector.frontInclination() + units.incv()).get(Angle::Degrees) == Approx( expectedInc.get(Angle::Degrees) ) );
+
+        const double tolerance = 1e-5; // Define your tolerance
+        CHECK_THAT((vector.distance() + units.incd()).get(Length::Meters), WithinAbs(expectedDist.get(Length::Meters), tolerance));
+        CHECK_THAT((vector.frontInclination() + units.incv()).get(Angle::Degrees), WithinAbs(expectedInc.get(Angle::Degrees), tolerance));
     }
 }
 

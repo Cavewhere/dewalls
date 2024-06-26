@@ -61,8 +61,12 @@ target_sources(dewalls-test PRIVATE ${DEWALLS_TEST_SOURCES})
 target_include_directories(dewalls-test PRIVATE src lib)
 
 # Add dependencies for the test application
-target_link_libraries(dewalls-test PRIVATE dewalls Catch2::Catch2)
+target_link_libraries(dewalls-test
+    PRIVATE
+    dewalls
+    Catch2::Catch2
+    Catch2::Catch2WithMain)
 
 # Set C++11 standard
-set_property(TARGET dewalls PROPERTY CXX_STANDARD 11)
-set_property(TARGET dewalls-test PROPERTY CXX_STANDARD 11)
+set_property(TARGET dewalls PROPERTY CXX_STANDARD 17)
+set_property(TARGET dewalls-test PROPERTY CXX_STANDARD 17)
