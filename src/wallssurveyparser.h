@@ -205,23 +205,23 @@ private:
     static const QHash<QString, QList<TapingMethodMeasurement>> tapingMethods;
     static const QHash<QString, int> prefixDirectives;
 
-    static const QRegExp wordRx;
-    static const QRegExp notSemicolonRx;
-    static const QRegExp unitsOptionRx;
-    static const QRegExp directiveRx;
-    static const QRegExp macroNameRx;
-    static const QRegExp stationRx;
-    static const QRegExp prefixRx;
+    static const QRegularExpression wordRx;
+    static const QRegularExpression notSemicolonRx;
+    static const QRegularExpression unitsOptionRx;
+    static const QRegularExpression directiveRx;
+    static const QRegularExpression macroNameRx;
+    static const QRegularExpression stationRx;
+    static const QRegularExpression prefixRx;
 
-    static const QRegExp optionalRx;
-    static const QRegExp optionalStationRx;
+    static const QRegularExpression optionalRx;
+    static const QRegularExpression optionalStationRx;
 
-    static const QRegExp isoDateRx;
-    static const QRegExp usDateRx1;
-    static const QRegExp usDateRx2;
-    static const QRegExp usDateRx3;
+    static const QRegularExpression isoDateRx;
+    static const QRegularExpression usDateRx1;
+    static const QRegularExpression usDateRx2;
+    static const QRegularExpression usDateRx3;
 
-    static const QRegExp segmentPartRx;
+    static const QRegularExpression segmentPartRx;
 
     static const QHash<QString, OwnProduction> unitsOptionMap;
     static const QHash<QString, OwnProduction> directivesMap;

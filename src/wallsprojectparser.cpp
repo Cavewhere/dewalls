@@ -391,7 +391,7 @@ void WallsProjectParser::refLine() {
     ref.wallsDatumIndex = unsignedIntLiteral();
     whitespace();
     expect('"');
-    ref.datumName = expect(QRegExp("[^\"]+"), {"<DATUM_NAME>"}).value();
+    ref.datumName = expect(QRegularExpression("[^\"]+"), {"<DATUM_NAME>"}).value();
     expect('"');
     maybeWhitespace();
     endOfLine();

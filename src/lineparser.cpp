@@ -2,8 +2,8 @@
 
 namespace dewalls {
 
-const QRegExp LineParser::whitespaceRx("\\s+");
-const QRegExp LineParser::nonwhitespaceRx("\\S+");
+const QRegularExpression LineParser::whitespaceRx("\\s+");
+const QRegularExpression LineParser::nonwhitespaceRx("\\S+");
 
 LineParser::LineParser()
     : LineParser(Segment(QString(), QString(), 0, 0))
@@ -121,38 +121,73 @@ void LineParser::expect(const QString &c, Qt::CaseSensitivity cs)
     throw SegmentParseExpectedException(_line.atAsSegment(_i), c);
 }
 
-Segment LineParser::expect(const QRegExp &rx, std::initializer_list<QString> expectedItems)
+// Segment LineParser::expect(const QRegularExpression &rx, std::initializer_list<QString> expectedItems)
+// {
+//     QRegExp rxcopy = rx;
+//     int index = indexIn(rxcopy, _line, _i);
+//     if (index != _i) {
+//         throw SegmentParseExpectedException(_line.atAsSegment(_i), expectedItems);
+//     }
+//     int start = _i;
+//     _i += rxcopy.matchedLength();
+//     return _line.mid(start, rxcopy.matchedLength());
+// }
+
+Segment LineParser::expect(const QRegularExpression &rx, std::initializer_list<QString> expectedItems)
 {
-    QRegExp rxcopy = rx;
-    int index = indexIn(rxcopy, _line, _i);
-    if (index != _i) {
+    QRegularExpression rxcopy = rx;
+    QRegularExpressionMatch match = rxcopy.match(_line.value(), _i);
+    if (!match.hasMatch() || match.capturedStart() != _i) {
         throw SegmentParseExpectedException(_line.atAsSegment(_i), expectedItems);
     }
     int start = _i;
-    _i += rxcopy.matchedLength();
-    return _line.mid(start, rxcopy.matchedLength());
+    _i += match.capturedLength();
+    return _line.mid(start, match.capturedLength());
 }
 
-Segment LineParser::expect(QRegExp &rx, std::initializer_list<QString> expectedItems)
+// Segment LineParser::expect(QRegExp &rx, std::initializer_list<QString> expectedItems)
+// {
+//     int index = indexIn(rx, _line, _i);
+//     if (index != _i) {
+//         throw SegmentParseExpectedException(_line.atAsSegment(_i), expectedItems);
+//     }
+//     int start = _i;
+//     _i += rx.matchedLength();
+//     return _line.mid(start, rx.matchedLength());
+// }
+
+Segment LineParser::expect(QRegularExpression &rx, std::initializer_list<QString> expectedItems)
 {
-    int index = indexIn(rx, _line, _i);
-    if (index != _i) {
+    QRegularExpressionMatch match = rx.match(_line.value(), _i);
+    if (!match.hasMatch() || match.capturedStart() != _i) {
         throw SegmentParseExpectedException(_line.atAsSegment(_i), expectedItems);
     }
     int start = _i;
-    _i += rx.matchedLength();
-    return _line.mid(start, rx.matchedLength());
+    _i += match.capturedLength();
+    return _line.mid(start, match.capturedLength());
 }
 
-Segment LineParser::expect(QRegExp &rx, QList<QString> expectedItems)
+
+// Segment LineParser::expect(QRegExp &rx, QList<QString> expectedItems)
+// {
+//     int index = indexIn(rx, _line, _i);
+//     if (index != _i) {
+//         throw SegmentParseExpectedException(_line.atAsSegment(_i), expectedItems);
+//     }
+//     int start = _i;
+//     _i += rx.matchedLength();
+//     return _line.mid(start, rx.matchedLength());
+// }
+
+Segment LineParser::expect(QRegularExpression &rx, QList<QString> expectedItems)
 {
-    int index = indexIn(rx, _line, _i);
-    if (index != _i) {
+    QRegularExpressionMatch match = rx.match(_line.value(), _i);
+    if (!match.hasMatch() || match.capturedStart() != _i) {
         throw SegmentParseExpectedException(_line.atAsSegment(_i), expectedItems);
     }
     int start = _i;
-    _i += rx.matchedLength();
-    return _line.mid(start, rx.matchedLength());
+    _i += match.capturedLength();
+    return _line.mid(start, match.capturedLength());
 }
 
 Segment LineParser::whitespace()
@@ -170,7 +205,7 @@ Segment LineParser::nonwhitespace()
     return expect(nonwhitespaceRx, {"<NONWHITESPACE>"});
 }
 
-const QRegExp LineParser::unsignedIntLiteralRx("\\d+");
+const QRegularExpression LineParser::unsignedIntLiteralRx("\\d+");
 
 uint LineParser::unsignedIntLiteral()
 {
@@ -197,7 +232,7 @@ int LineParser::intLiteral()
     return signum * unsignedIntLiteral();
 }
 
-const QRegExp LineParser::unsignedDoubleLiteralRx("\\d+(\\.\\d*)?|\\.\\d+");
+const QRegularExpression LineParser::unsignedDoubleLiteralRx("\\d+(\\.\\d*)?|\\.\\d+");
 
 double LineParser::unsignedDoubleLiteral()
 {

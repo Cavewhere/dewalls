@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(dewalls)
 
 # Find Qt packages
-find_package(Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt6 COMPONENTS Core REQUIRED)
 find_package(Catch2 REQUIRED)
 
 # Include the export header module
@@ -37,7 +37,7 @@ target_include_directories(dewalls PUBLIC
 )
 
 # Add dependencies
-target_link_libraries(dewalls PUBLIC Qt5::Core)
+target_link_libraries(dewalls PUBLIC Qt6::Core)
 
 # Compiler flags
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

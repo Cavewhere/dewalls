@@ -38,9 +38,9 @@ public:
 
     void expect(const QChar& c, Qt::CaseSensitivity cs = Qt::CaseSensitive);
     void expect(const QString& c, Qt::CaseSensitivity cs = Qt::CaseSensitive);
-    Segment expect(const QRegExp& rx, std::initializer_list<QString> expectedItems);
-    Segment expect(QRegExp& rx, std::initializer_list<QString> expectedItems);
-    Segment expect(QRegExp &rx, QList<QString> expectedItems);
+    Segment expect(const QRegularExpression& rx, std::initializer_list<QString> expectedItems);
+    Segment expect(QRegularExpression& rx, std::initializer_list<QString> expectedItems);
+    Segment expect(QRegularExpression &rx, QList<QString> expectedItems);
 
     template<typename F>
     QChar expectChar(F charPredicate, std::initializer_list<QString> expectedItems);
@@ -50,13 +50,13 @@ public:
 
     bool maybeWhitespace();
 
-    static const QRegExp unsignedIntLiteralRx;
+    static const QRegularExpression unsignedIntLiteralRx;
     uint unsignedIntLiteral();
 
     static const QHash<QChar, int> intSignSignums;
     int intLiteral();
 
-    static const QRegExp unsignedDoubleLiteralRx;
+    static const QRegularExpression unsignedDoubleLiteralRx;
     double unsignedDoubleLiteral();
 
     static const QHash<QChar, double> signSignums;
@@ -69,10 +69,10 @@ public:
     V oneOfMap(QHash<QChar, V> map, V elseValue);
 
     template<typename V>
-    V oneOfMapLowercase(const QRegExp& rx, QHash<QString, V> map);
+    V oneOfMapLowercase(const QRegularExpression& rx, QHash<QString, V> map);
 
     template<typename V>
-    V oneOfMapLowercase(QRegExp& rx, QHash<QString, V> map);
+    V oneOfMapLowercase(QRegularExpression& rx, QHash<QString, V> map);
 
     template<typename F>
     void throwAllExpected(F production);
@@ -110,8 +110,8 @@ public:
 
     Segment remaining();
 
-    static const QRegExp whitespaceRx;
-    static const QRegExp nonwhitespaceRx;
+    static const QRegularExpression whitespaceRx;
+    static const QRegularExpression nonwhitespaceRx;
 
 protected:
     Segment _line;
@@ -292,14 +292,14 @@ V LineParser::oneOfMap(QHash<QChar, V> map, V elseValue)
 }
 
 template<typename V>
-V LineParser::oneOfMapLowercase(const QRegExp& rx, QHash<QString, V> map)
+V LineParser::oneOfMapLowercase(const QRegularExpression& rx, QHash<QString, V> map)
 {
-    QRegExp rxCopy = rx;
+    QRegularExpression rxCopy = rx;
     return oneOfMapLowercase(rxCopy, map);
 }
 
 template<typename V>
-V LineParser::oneOfMapLowercase(QRegExp& rx, QHash<QString, V> map)
+V LineParser::oneOfMapLowercase(QRegularExpression& rx, QHash<QString, V> map)
 {
     int start = _i;
     Segment seg = expect(rx, map.keys());

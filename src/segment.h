@@ -4,7 +4,7 @@
 #include <QSharedPointer>
 #include <QString>
 #include <QObject>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QList>
 #include "dewallsexport.h"
 
@@ -83,20 +83,20 @@ public:
     Segment mid(int position, int n = -1) const;
     Segment left(int n) const;
     Segment right(int n) const;
-    QList<Segment> split(const QRegExp& re, Qt::SplitBehaviorFlags behavior = Qt::KeepEmptyParts) const;
+    QList<Segment> split(const QRegularExpression& re, Qt::SplitBehaviorFlags behavior = Qt::KeepEmptyParts) const;
     QList<Segment> split(const QString& pattern, Qt::SplitBehaviorFlags behavior = Qt::KeepEmptyParts, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
     int compare(const QString& other, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
-    int compare(const QStringRef& other, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
+    // int compare(const QStringRef& other, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
     bool contains(const QString& str, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
-    bool contains(const QStringRef& str, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
-    bool contains(const QRegExp& rx) const;
-    bool contains(QRegExp& rx) const;
+    // bool contains(const QStringRef& str, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
+    bool contains(const QRegularExpression& rx) const;
+    bool contains(QRegularExpression& rx) const;
     bool endsWith(const QString& str, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
-    bool endsWith(const QStringRef& str, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
+    // bool endsWith(const QStringRef& str, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
     int indexOf(const QString& str, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
-    int indexOf(const QStringRef& str, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
+    // int indexOf(const QStringRef& str, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
     int lastIndexOf(const QString& str, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
-    int lastIndexOf(const QStringRef& str, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
+    // int lastIndexOf(const QStringRef& str, int from = 0, Qt::CaseSensitivity cs = Qt::CaseSensitive) const;
     std::string toStdString() const;
     std::wstring toStdWString() const;
     Segment trimmed() const;
@@ -127,22 +127,24 @@ private:
     SegmentPtr _impl;
 };
 
-inline bool exactMatch(QRegExp& rx, const Segment& segment) {
-    return rx.exactMatch(segment.value());
-}
+// inline bool exactMatch(QRegularExpression& rx, const Segment& segment) {
+//     QRegularExpressionMatch match = rx.match(segment.value(), 0, QRegularExpression::);
+//     return mat
+//     return rx.exactMatch(segment.value());
+// }
 
-inline int indexIn(QRegExp& rx, const Segment& segment, int offset = 0, QRegExp::CaretMode caretMode = QRegExp::CaretAtZero) {
-    return rx.indexIn(segment.value(), offset, caretMode);
-}
+// inline int indexIn(QRegularExpression& rx, const Segment& segment, int offset = 0, QRegularExpression::CaretMode caretMode = QRegularExpression::CaretAtZero) {
+//     return rx.indexIn(segment.value(), offset, caretMode);
+// }
 
-inline int lastIndexIn(QRegExp& rx, const Segment& segment, int offset = -1, QRegExp::CaretMode caretMode = QRegExp::CaretAtZero) {
-    return rx.lastIndexIn(segment.value(), offset, caretMode);
-}
+// inline int lastIndexIn(QRegularExpression& rx, const Segment& segment, int offset = -1, QRegularExpression::CaretMode caretMode = QRegularExpression::CaretAtZero) {
+//     return rx.lastIndexIn(segment.value(), offset, caretMode);
+// }
 
-inline Segment cap(QRegExp& rx, const Segment& segment, int nth = 0)
-{
-    return segment.mid(rx.pos(nth), rx.cap(nth).length());
-}
+// inline Segment cap(QRegularExpression& rx, const Segment& segment, int nth = 0)
+// {
+//     return segment.mid(rx.pos(nth), rx.cap(nth).length());
+// }
 
 inline Segment::Segment()
     : Segment(QString(), QString(), 0, 0)
@@ -236,24 +238,24 @@ inline int Segment::compare(const QString& other, Qt::CaseSensitivity cs) const
     return value().compare(other, cs);
 }
 
-inline int Segment::compare(const QStringRef& other, Qt::CaseSensitivity cs) const
-{
-    return value().compare(other, cs);
-}
+// inline int Segment::compare(const QStringRef& other, Qt::CaseSensitivity cs) const
+// {
+//     return value().compare(other, cs);
+// }
 
 inline bool Segment::contains(const QString& str, Qt::CaseSensitivity cs) const
 {
     return value().contains(str, cs);
 }
-inline bool Segment::contains(const QStringRef& str, Qt::CaseSensitivity cs) const
-{
-    return value().contains(str, cs);
-}
-inline bool Segment::contains(const QRegExp& rx) const
+// inline bool Segment::contains(const QStringRef& str, Qt::CaseSensitivity cs) const
+// {
+//     return value().contains(str, cs);
+// }
+inline bool Segment::contains(const QRegularExpression& rx) const
 {
     return value().contains(rx);
 }
-inline bool Segment::contains(QRegExp& rx) const
+inline bool Segment::contains(QRegularExpression &rx) const
 {
     return value().contains(rx);
 }
@@ -261,26 +263,26 @@ inline bool Segment::endsWith(const QString& str, Qt::CaseSensitivity cs) const
 {
     return value().endsWith(str, cs);
 }
-inline bool Segment::endsWith(const QStringRef& str, Qt::CaseSensitivity cs) const
-{
-    return value().endsWith(str, cs);
-}
+// inline bool Segment::endsWith(const QStringRef& str, Qt::CaseSensitivity cs) const
+// {
+//     return value().endsWith(str, cs);
+// }
 inline int Segment::indexOf(const QString& str, int from, Qt::CaseSensitivity cs) const
 {
     return value().indexOf(str, from, cs);
 }
-inline int Segment::indexOf(const QStringRef& str, int from, Qt::CaseSensitivity cs) const
-{
-    return value().indexOf(str, from, cs);
-}
+// inline int Segment::indexOf(const QStringRef& str, int from, Qt::CaseSensitivity cs) const
+// {
+//     return value().indexOf(str, from, cs);
+// }
 inline int Segment::lastIndexOf(const QString& str, int from, Qt::CaseSensitivity cs) const
 {
     return value().lastIndexOf(str, from, cs);
 }
-inline int Segment::lastIndexOf(const QStringRef& str, int from, Qt::CaseSensitivity cs) const
-{
-    return value().lastIndexOf(str, from, cs);
-}
+// inline int Segment::lastIndexOf(const QStringRef& str, int from, Qt::CaseSensitivity cs) const
+// {
+//     return value().lastIndexOf(str, from, cs);
+// }
 inline std::string Segment::toStdString() const
 {
     return value().toStdString();

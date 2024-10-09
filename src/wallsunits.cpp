@@ -1,5 +1,6 @@
 #include "wallsunits.h"
 #include "unitizedmath.h"
+#include <QRegularExpression>
 
 namespace dewalls {
 
@@ -83,7 +84,7 @@ QString WallsUnits::processStationName(QString name) const
     {
         name.prepend(':').prepend(d->prefix[i]);
     }
-    return name.replace(QRegExp("^:+"), "");
+    return name.replace(QRegularExpression("^:+"), QString(""));
 }
 
 ULength WallsUnits::correctLength(ULength length, ULength correction)

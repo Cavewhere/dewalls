@@ -270,23 +270,23 @@ const QHash<QString, LrudType> WallsSurveyParser::lrudTypes = WallsSurveyParser:
 const QHash<QString, QList<TapingMethodMeasurement>> WallsSurveyParser::tapingMethods = WallsSurveyParser::createTapingMethods();
 const QHash<QString, int> WallsSurveyParser::prefixDirectives = WallsSurveyParser::createPrefixDirectives();
 
-const QRegExp WallsSurveyParser::wordRx("\\w+");
-const QRegExp WallsSurveyParser::notSemicolonRx("[^;]+");
-const QRegExp WallsSurveyParser::unitsOptionRx("[a-zA-Z_0-9/]*");
-const QRegExp WallsSurveyParser::directiveRx("#([][]|[a-zA-Z0-9]+)");
-const QRegExp WallsSurveyParser::macroNameRx("[^()=,,# \t]*");
-const QRegExp WallsSurveyParser::stationRx("([^:;,,#/ \t]*:){0,3}[^:;,,#/ \t]{1,8}");
-const QRegExp WallsSurveyParser::prefixRx("[^:;,,#/ \t]*");
+const QRegularExpression WallsSurveyParser::wordRx("\\w+");
+const QRegularExpression WallsSurveyParser::notSemicolonRx("[^;]+");
+const QRegularExpression WallsSurveyParser::unitsOptionRx("[a-zA-Z_0-9/]*");
+const QRegularExpression WallsSurveyParser::directiveRx("#([][]|[a-zA-Z0-9]+)");
+const QRegularExpression WallsSurveyParser::macroNameRx("[^()=,,# \t]*");
+const QRegularExpression WallsSurveyParser::stationRx("([^:;,,#/ \t]*:){0,3}[^:;,,#/ \t]{1,8}");
+const QRegularExpression WallsSurveyParser::prefixRx("[^:;,,#/ \t]*");
 
-const QRegExp WallsSurveyParser::optionalRx("-+");
-const QRegExp WallsSurveyParser::optionalStationRx("-+");
+const QRegularExpression WallsSurveyParser::optionalRx("-+");
+const QRegularExpression WallsSurveyParser::optionalStationRx("-+");
 
-const QRegExp WallsSurveyParser::isoDateRx("\\d{4}-\\d{2}-\\d{2}");
-const QRegExp WallsSurveyParser::usDateRx1("\\d{2}-\\d{2}-\\d{2,4}");
-const QRegExp WallsSurveyParser::usDateRx2("\\d{2}/\\d{2}/\\d{2,4}");
-const QRegExp WallsSurveyParser::usDateRx3("\\d{4}-\\d{1,2}-\\d{1,2}");
+const QRegularExpression WallsSurveyParser::isoDateRx("\\d{4}-\\d{2}-\\d{2}");
+const QRegularExpression WallsSurveyParser::usDateRx1("\\d{2}-\\d{2}-\\d{2,4}");
+const QRegularExpression WallsSurveyParser::usDateRx2("\\d{2}/\\d{2}/\\d{2,4}");
+const QRegularExpression WallsSurveyParser::usDateRx3("\\d{4}-\\d{1,2}-\\d{1,2}");
 
-const QRegExp WallsSurveyParser::segmentPartRx("[^./\\;][^/\\;]+");
+const QRegularExpression WallsSurveyParser::segmentPartRx("[^./\\;][^/\\;]+");
 
 const QHash<QString, OwnProduction> WallsSurveyParser::unitsOptionMap = WallsSurveyParser::createUnitsOptionMap();
 const QHash<QString, OwnProduction> WallsSurveyParser::directivesMap = WallsSurveyParser::createDirectivesMap();
@@ -794,7 +794,8 @@ QStringList WallsSurveyParser::segmentPath()
 
     if (lastAddedIndex >= 0) {
         QString lastPart = path[lastAddedIndex];
-        lastPart.truncate(QRegExp("\\s*$").indexIn(lastPart));
+        QRegularExpression trailingWhitespaceRegex("\\s*$");
+        lastPart.truncate(trailingWhitespaceRegex.match(lastPart).capturedStart());
         path[lastAddedIndex] = lastPart;
     }
 
@@ -1362,7 +1363,7 @@ void WallsSurveyParser::fromStation()
 {
     _fromStationSegment = station();
     QString from = _fromStationSegment.value();
-    if (optionalStationRx.exactMatch(from)) {
+    if (optionalStationRx.match(from).hasMatch()) {
         from.clear();
     }
     _vector = Vector();
@@ -1391,7 +1392,7 @@ void WallsSurveyParser::toStation()
 {
     _toStationSegment = station();
     QString to = _toStationSegment.value();
-    if (optionalStationRx.exactMatch(to))
+    if (optionalStationRx.match(to).hasMatch())
     {
         to.clear();
     }
