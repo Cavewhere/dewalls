@@ -454,7 +454,7 @@ UAngle WallsSurveyParser::nonQuadrantAzimuth(Angle::Unit defaultUnit)
 
     UAngle result = unsignedAngle(azmUnitSuffixes, defaultUnit);
 
-    if (approx(result.get(Angle::Degrees)) >= 360.0)
+    if (approx(result.get(Angle::Degrees)) > 360.0)
     {
         throw SegmentParseException(_line.mid(start, _i), "azimuth out of range");
     }

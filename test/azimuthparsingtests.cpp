@@ -61,9 +61,9 @@ TEST_CASE( "azimuth parsing tests" , "[dewalls, azimuth]" ) {
         CHECK_THROWS( WallsSurveyParser(" ").azimuth(Angle::Degrees) );
     }
     SECTION( "out of range values throw" ) {
-        CHECK_THROWS( WallsSurveyParser("360").azimuth(Angle::Degrees) );
+        CHECK_THROWS( WallsSurveyParser("360.1").azimuth(Angle::Degrees) ); //360 is valid
         CHECK_THROWS( WallsSurveyParser("-0.00001").azimuth(Angle::Degrees) );
-        CHECK_THROWS( WallsSurveyParser("400g").azimuth(Angle::Degrees) );
+        CHECK_THROWS( WallsSurveyParser("400.1g").azimuth(Angle::Degrees) ); //400 is valid
         CHECK_THROWS( WallsSurveyParser("-0.00001g").azimuth(Angle::Degrees) );
         CHECK_THROWS( WallsSurveyParser("N90E").azimuth(Angle::Degrees) );
         CHECK_THROWS( WallsSurveyParser("N100gE").azimuth(Angle::Degrees) );

@@ -239,6 +239,13 @@ TEST_CASE( "general tests", "[dewalls]" ) {
                 parser.parseLine("A B 1 1/7 4");
                 CHECK( messages.size() == 1 );
             }
+
+            SECTION( "Above 360 parsing ") {
+                parser.parseLine("#units a=Degrees");
+                parser.parseLine("A B 1 0/360 4");
+                REQUIRE( vector.frontAzimuth() == UAngle(0, Angle::Degrees) );
+                REQUIRE( vector.backAzimuth() == UAngle(360, Angle::Degrees) );
+            }
         }
 
         SECTION( "inclination" ) {
