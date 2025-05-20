@@ -9,7 +9,7 @@ find_package(Catch2 REQUIRED)
 include(GenerateExportHeader)
 
 # Add dynamic library
-add_library(dewalls SHARED)
+qt_add_library(dewalls STATIC)
 
 set_target_properties(dewalls PROPERTIES
     AUTOMOC ON
@@ -36,6 +36,9 @@ target_include_directories(dewalls PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+# Set C++11 standard
+set_property(TARGET dewalls PROPERTY CXX_STANDARD 17)
+
 # Add dependencies
 target_link_libraries(dewalls PUBLIC Qt6::Core)
 
@@ -44,29 +47,32 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(dewalls PRIVATE "-Wno-attributes")
 endif()
 
-# Add console application
-add_executable(dewalls-test)
+if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
+    #dewalls-test doesn't build on ios
 
-set_target_properties(dewalls-test PROPERTIES
-    AUTOMOC ON
-    AUTORCC ON
-    AUTOUIC ON
-)
+    # Add console application
+    qt_add_executable(dewalls-test)
 
-# Use glob to collect source files for the test application
-file(GLOB DEWALLS_TEST_SOURCES "test/*.cpp" "test/*.h" "test/dewalls-test.qrc")
-target_sources(dewalls-test PRIVATE ${DEWALLS_TEST_SOURCES})
+    set_target_properties(dewalls-test PROPERTIES
+        AUTOMOC ON
+        AUTORCC ON
+        AUTOUIC ON
+    )
 
-# Specify include directories for the test application
-target_include_directories(dewalls-test PRIVATE src lib)
+    # Use glob to collect source files for the test application
+    file(GLOB DEWALLS_TEST_SOURCES "test/*.cpp" "test/*.h" "test/dewalls-test.qrc")
+    target_sources(dewalls-test PRIVATE ${DEWALLS_TEST_SOURCES})
 
-# Add dependencies for the test application
-target_link_libraries(dewalls-test
-    PRIVATE
-    dewalls
-    Catch2::Catch2
-    Catch2::Catch2WithMain)
+    # Specify include directories for the test application
+    target_include_directories(dewalls-test PRIVATE src lib)
 
-# Set C++11 standard
-set_property(TARGET dewalls PROPERTY CXX_STANDARD 17)
-set_property(TARGET dewalls-test PROPERTY CXX_STANDARD 17)
+    # Add dependencies for the test application
+    target_link_libraries(dewalls-test
+        PRIVATE
+        dewalls
+        Catch2::Catch2
+        Catch2::Catch2WithMain)
+
+    # Set C++11 standard
+    set_property(TARGET dewalls-test PROPERTY CXX_STANDARD 17)
+endif()
