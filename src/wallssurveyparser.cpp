@@ -278,8 +278,16 @@ const QRegularExpression WallsSurveyParser::macroNameRx("[^()=,,# \t]*");
 const QRegularExpression WallsSurveyParser::stationRx("([^:;,,#/ \t]*:){0,3}[^:;,,#/ \t]{1,8}");
 const QRegularExpression WallsSurveyParser::prefixRx("[^:;,,#/ \t]*");
 
+// Deliberately unanchored, unlike optionalStationRx below: this one is a token
+// matched through LineParser::expect, which anchors at the cursor itself and
+// then advances by the captured length. Anchoring the pattern would force it to
+// match through end of line.
 const QRegularExpression WallsSurveyParser::optionalRx("-+");
-const QRegularExpression WallsSurveyParser::optionalStationRx("-+");
+// The whole name has to be dashes to mark an omitted station. Matching a run of
+// dashes anywhere in the name would read A-1 as omitted, and a line between two
+// such names as a line between two omitted stations.
+const QRegularExpression WallsSurveyParser::optionalStationRx(
+        QRegularExpression::anchoredPattern("-+"));
 
 const QRegularExpression WallsSurveyParser::isoDateRx("\\d{4}-\\d{2}-\\d{2}");
 const QRegularExpression WallsSurveyParser::usDateRx1("\\d{2}-\\d{2}-\\d{2,4}");
